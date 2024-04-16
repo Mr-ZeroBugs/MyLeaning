@@ -26,3 +26,4 @@ plt.scatter(xTest[:, 0], xTest[:, 1], c=predXtest, s=200) #ปรับขนา
 
 plt.legend(frameon=True)
 #plt.show()
+#
