@@ -21,8 +21,8 @@ class LinearRegression(nn.Module):
     def forward(self, x): #auto sent answer back เพราะ forward มีอยู่เเล้วใน classเเม่ nn.Module
         return self.lin(x)
     
-#model = LinearRegression(input_size, output_size)
-model = nn.Linear(input_size, output_size)
+#model = LinearRegression(input_size, output_size) this or
+model = nn.Linear(input_size, output_size) #this (is use this, class Linear is trash)
 
 
 print(f"pred before training : f5 = {model(xTest).item():.3f}") #นี่คือจำนวน x ที่ต้องการ (for examp x = 5 then y must be 10 (Linear Regression))

@@ -61,3 +61,6 @@ with torch.no_grad():
 #งานนี้ classification นะ
 # acc = y_pred_class.eq(yTest).sum() / float(yTest.shape[0])
 #อีกตัวเลือกนึง หากไม่ใช้ accuracy score
+#.eq จะไล่เทียบทุกค่าที่ตำเเหน่งเดียวกัน เเล้วคืนค่า t,f จากนัน้ .sum() จะนับ true = 1 เเล้วรวมทั้งหมด เเล้วนำไปหาร rows ทั้งหมด ตัวอย่างเช่น ถูก106ตัว จาก114 ก็106/114 then = 0.92
+print(y_pred_class.shape)
+print(y_pred_class.eq(yTest).sum())
