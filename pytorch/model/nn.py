@@ -9,7 +9,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 #hyper params
 input_size = 784 #28*28
-hidden_size = 128
+hidden_size = 200 
 num_classes = 10 # 0 - 9 from mnist
 num_epochs = 5
 batch_size = 100
@@ -66,20 +66,31 @@ for epoch in range(num_epochs):
 
         if (i+1) % 100 == 0:
             print(f"epoch {epoch+1}/{num_epochs}, step{i+1}/{n_total_steps}, loss = {loss.item():.4f}")
-        
+            print()
 #test
 with torch.no_grad():
     n_correct = 0
     n_samples = 0
+    scikit = 0
     for images, labels in test_loader:
         images = images.reshape(-1, 28*28).to(device)
         labels = labels.to(device)
+
+        #อันนี้เเบบทำกระบวนการคำนวณเอง ไม่พึ่ง module
         outputs = model(images) #คือมันจะเก็บความเป็นไปได้เอาไว้มากมาย matrixขนาด rows = batch_size, columns = num_classes 0-9 
         _, prediction = torch.max(outputs, 1) #ทีนี้เราก้นำ .max มาดึง classes ที่มีเเนวโน้มเป็นไปได้มากที่่สุดออกมา
         n_samples += labels.shape[0]
-        n_correct += (prediction == labels).sum().item() 
+        n_correct += (prediction == labels).sum().item()
+
+        #อันนี้จบในบรรทัดเดียว โดย scikit
+        scikit += (accuracy_score(prediction, labels))
 
     acc = 100.0 * n_correct / n_samples
-    print(acc)
+    accByScikit = scikit/(1*(10000/batch_size)) #all data without batch = 10,000
+    print(accByScikit, "accuracy by scikit")
+    print(acc, "accuracy by doing it your self")
+    
+    #คือถามว่าทำไมไม่ accuracy_score ทีเดียวนอกloop ไปเลย ต้องบอกว่า นอกloop มันคือ ข้อมูลเเค่ 100 ตัว(1batch, 100data) ดังนั้นจึงต้องนำมาเข้า loop ให้มันเข้าถึง batch ทั้งหมด เพื่อข้อมูลทั้งหมด 10,000 ชุด
+
 
 
