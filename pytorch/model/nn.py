@@ -9,14 +9,14 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 #hyper params
 input_size = 784 #28*28
-hidden_size = 200 
+hidden_size = 128
 num_classes = 10 # 0 - 9 from mnist
 num_epochs = 5
 batch_size = 100
 learning_rate = 0.0001
 
 #mnist
-train_dataset = torchvision.datasets.MNIST('./data', transform=transforms.ToTensor(), train=True) #download = True ถ้ายังไม่เคย
+train_dataset = torchvision.datasets.MNIST('./data', transform=transforms.ToTensor(), train=True, download=True) #download = True ถ้ายังไม่เคย
 test_dataset = torchvision.datasets.MNIST('./data', transform=transforms.ToTensor(), train=False)
 
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
@@ -86,10 +86,10 @@ with torch.no_grad():
         scikit += (accuracy_score(prediction, labels))
 
     acc = 100.0 * n_correct / n_samples
-    accByScikit = scikit/(1*(10000/batch_size)) #all data without batch = 10,000
-    print(accByScikit, "accuracy by scikit")
+    accByScikit = scikit/len(test_loader) #all data(test) without batch = 10,000
     print(acc, "accuracy by doing it your self")
-    
+    print(accByScikit, "accuracy by scikit")
+    print(len(train_loader, len(test_loader)))  #all data = len(loder) * batch_size
     #คือถามว่าทำไมไม่ accuracy_score ทีเดียวนอกloop ไปเลย ต้องบอกว่า นอกloop มันคือ ข้อมูลเเค่ 100 ตัว(1batch, 100data) ดังนั้นจึงต้องนำมาเข้า loop ให้มันเข้าถึง batch ทั้งหมด เพื่อข้อมูลทั้งหมด 10,000 ชุด
 
 
