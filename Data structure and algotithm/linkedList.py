@@ -77,6 +77,20 @@ class LinkedList:
             
         return current
 
+    def node_at_index(self, index):
+        if index == 0:
+            return self.head
+        
+        else:
+            current = self.head
+            position = 0
+
+            while position < index:
+                current = current.next_node
+                position += 1
+            
+            return current
+
     def __repr__(self):
         """
         Return a string representation of the list.
@@ -96,11 +110,15 @@ class LinkedList:
 
 
 l = LinkedList()
-l.add(1)
-l.add(2)
-l.add(3)
-print(l)
-l.insert(4, 2)
-print(l)
-l.remove(4)
-print(l)
+def test():
+    l.add(1)
+    l.add(2)
+    l.add(3)
+    print(l)
+    l.insert(4, 2)
+    print(l)
+    l.remove(4)
+    print(l)
+
+if __name__ == "__main__":
+    test()
